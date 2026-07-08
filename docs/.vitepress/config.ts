@@ -59,6 +59,9 @@ const sharedSearchLocales = {
 }
 
 export default defineConfig({
+
+  base: '/',
+
   title: 'CubeOcean Games Docs',
   description: 'Platform documentation',
   cleanUrls: true,
