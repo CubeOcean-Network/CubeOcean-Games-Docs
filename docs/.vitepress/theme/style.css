@@ -1,0 +1,314 @@
+/**
+ * Design tokens
+ * -------------
+ * ink     #0a0a0b  primary text / primary surface (inverted in dark)
+ * paper   #ffffff  page background (inverted in dark)
+ * mist    #e4e4e7  hairline borders, dividers
+ * graphite #6b6b76 secondary text
+ * signal  #2563eb  the one accent color: links, active states, brand button
+ *
+ * Everything else is restraint: no gradients, no shadows heavier than a
+ * 1px hairline, no rounded pills. Precision over decoration.
+ */
+
+:root {
+  --vp-font-family-base:
+    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --vp-font-family-mono:
+    'JetBrains Mono', ui-monospace, 'Cascadia Code', Menlo, Consolas, monospace;
+
+  --vp-c-brand-1: #2563eb;
+  --vp-c-brand-2: #1d4ed8;
+  --vp-c-brand-3: #1e40af;
+  --vp-c-brand-soft: rgba(37, 99, 235, 0.1);
+
+  --vp-c-bg: #ffffff;
+  --vp-c-bg-alt: #fafafa;
+  --vp-c-bg-elv: #ffffff;
+  --vp-c-bg-soft: #f4f4f5;
+
+  --vp-c-text-1: #0a0a0b;
+  --vp-c-text-2: #52525b;
+  --vp-c-text-3: #94949c;
+
+  --vp-c-divider: #e4e4e7;
+  --vp-c-gutter: #e4e4e7;
+
+  --vp-c-default-soft: rgba(0, 0, 0, 0.04);
+
+  --vp-nav-height: 56px;
+  --vp-layout-max-width: 1440px;
+
+  --vp-button-brand-border: var(--vp-c-brand-1);
+  --vp-button-brand-text: #ffffff;
+  --vp-button-brand-bg: #0a0a0b;
+  --vp-button-brand-hover-border: #0a0a0b;
+  --vp-button-brand-hover-text: #ffffff;
+  --vp-button-brand-hover-bg: #262629;
+  --vp-button-brand-active-border: #0a0a0b;
+  --vp-button-brand-active-text: #ffffff;
+  --vp-button-brand-active-bg: #0a0a0b;
+
+  --vp-code-block-bg: #fafafa;
+}
+
+.dark {
+  --vp-c-brand-1: #5b9dff;
+  --vp-c-brand-2: #7fb1ff;
+  --vp-c-brand-3: #9cc2ff;
+  --vp-c-brand-soft: rgba(91, 157, 255, 0.14);
+
+  --vp-c-bg: #0a0a0a;
+  --vp-c-bg-alt: #050505;
+  --vp-c-bg-elv: #111113;
+  --vp-c-bg-soft: #17171a;
+
+  --vp-c-text-1: #f4f4f5;
+  --vp-c-text-2: #a1a1aa;
+  --vp-c-text-3: #6b6b70;
+
+  --vp-c-divider: #232326;
+  --vp-c-gutter: #232326;
+
+  --vp-c-default-soft: rgba(255, 255, 255, 0.06);
+
+  --vp-button-brand-bg: #f4f4f5;
+  --vp-button-brand-text: #0a0a0b;
+  --vp-button-brand-hover-bg: #d4d4d8;
+  --vp-button-brand-hover-text: #0a0a0b;
+  --vp-button-brand-active-bg: #f4f4f5;
+  --vp-button-brand-active-text: #0a0a0b;
+
+  --vp-code-block-bg: #111113;
+}
+
+/* ---------- Nav ---------- */
+
+.VPNav {
+  backdrop-filter: saturate(180%) blur(14px);
+}
+
+.VPNavBar {
+  border-bottom: 1px solid var(--vp-c-divider);
+}
+
+.VPNavBar:not(.has-sidebar) .content-body,
+.VPNavBar.home .content-body {
+  background: transparent;
+}
+
+.VPNavBarTitle .title {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.VPNavBarMenuLink.active,
+.VPNavBarMenuLink:hover {
+  color: var(--vp-c-brand-1);
+}
+
+/* Nav dropdown (e.g. the "Docs" menu grouping Info/Policy) - compact
+   anchored menu, styled to match the hairline system rather than
+   VitePress's default drop-shadow card. */
+.VPFlyout .menu {
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+.VPFlyout button .text {
+  color: var(--vp-c-text-1);
+  font-weight: 500;
+}
+
+.VPFlyout.active button .text {
+  color: var(--vp-c-brand-1);
+}
+
+.VPMenuLink a.active {
+  color: var(--vp-c-brand-1);
+  font-weight: 600;
+}
+
+/* ---------- Sidebar (left) ---------- */
+
+.VPSidebar {
+  border-right: 1px solid var(--vp-c-divider);
+}
+
+.VPSidebarItem.level-0 > .item > .text {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--vp-c-text-3);
+}
+
+.VPSidebarItem .VPLink.link {
+  border-left: 2px solid transparent;
+  padding-left: 10px;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.VPSidebarItem.is-active > .item > .VPLink.link,
+.VPSidebarItem .VPLink.link.active {
+  border-left-color: var(--vp-c-brand-1);
+  color: var(--vp-c-brand-1);
+  font-weight: 600;
+}
+
+/* ---------- Right aside / outline ---------- */
+
+.VPDocAsideOutline .outline-title {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--vp-c-text-3);
+}
+
+.VPDocOutlineItem .outline-link.active {
+  color: var(--vp-c-brand-1);
+  font-weight: 500;
+}
+
+/* ---------- Buttons ---------- */
+
+.VPButton {
+  border-radius: 6px;
+  font-weight: 500;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.VPButton.alt {
+  border-color: var(--vp-c-divider);
+}
+
+.VPButton.alt:hover {
+  border-color: var(--vp-c-text-3);
+  background-color: transparent;
+}
+
+/* ---------- Home hero ---------- */
+
+.VPHero .image,
+.VPHero .image-bg,
+.VPHero .image-container {
+  display: none;
+}
+
+.VPHero .container {
+  max-width: 720px;
+}
+
+.VPHero .name,
+.VPHero .text {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  background: none;
+  -webkit-text-fill-color: var(--vp-c-text-1);
+}
+
+.VPHero .tagline {
+  font-weight: 400;
+  color: var(--vp-c-text-2);
+}
+
+.VPHomeFeature {
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  background: var(--vp-c-bg);
+  transition: border-color 0.15s;
+}
+
+.VPFeature:hover .VPHomeFeature,
+.VPFeature:hover {
+  border-color: var(--vp-c-brand-1);
+}
+
+.VPFeature .title {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* ---------- Doc content ---------- */
+
+.vp-doc h1 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.vp-doc h2 {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  border-top: 1px solid var(--vp-c-divider);
+  padding-top: 24px;
+  margin-top: 48px;
+}
+
+.vp-doc h3 {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.vp-doc a {
+  font-weight: 500;
+  text-decoration-color: var(--vp-c-brand-soft);
+  text-underline-offset: 3px;
+}
+
+.vp-doc a:hover {
+  text-decoration-color: var(--vp-c-brand-1);
+}
+
+.vp-doc code {
+  font-size: 0.85em;
+  border-radius: 4px;
+}
+
+div[class*='language-'] {
+  border-radius: 8px;
+  border: 1px solid var(--vp-c-divider);
+}
+
+.vp-doc table {
+  font-size: 14px;
+}
+
+.vp-doc table th {
+  font-weight: 600;
+  color: var(--vp-c-text-2);
+}
+
+/* Custom containers (tip / warning / danger etc.) - hairline, not tinted blocks */
+.vp-doc .custom-block {
+  border: 1px solid var(--vp-c-divider);
+  border-left-width: 3px;
+  border-radius: 6px;
+  background: var(--vp-c-bg-soft);
+}
+
+.vp-doc .custom-block-title {
+  font-weight: 600;
+}
+
+
+
+.VPDocFooter .edit-link,
+.VPDocFooter .last-updated {
+  font-size: 13px;
+}
+
+.VPDocFooter .pager-link {
+  border-radius: 8px;
+  border-color: var(--vp-c-divider);
+  transition: border-color 0.15s;
+}
+
+.VPDocFooter .pager-link:hover {
+  border-color: var(--vp-c-brand-1);
+}
+
+.VPDocFooter .pager-link .title {
+  color: var(--vp-c-text-1);
+}
