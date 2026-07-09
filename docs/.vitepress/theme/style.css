@@ -312,3 +312,19 @@ div[class*='language-'] {
 .VPDocFooter .pager-link .title {
   color: var(--vp-c-text-1);
 }
+
+/* test */
+
+.VPNavBarMenu .website-menu {
+  display: flex;
+  align-items: center;
+  height: var(--vp-nav-height);
+}
+
+.VPNavBarMenu .website-menu-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--vp-nav-height);
+  padding: 0 12px;
+}

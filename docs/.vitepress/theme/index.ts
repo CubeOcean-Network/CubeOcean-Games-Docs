@@ -2,6 +2,8 @@ import { h } from 'vue'
 import DefaultTheme from 'vitepress/theme'
 import type { Theme } from 'vitepress'
 import EditedBy from './components/EditedBy.vue'
+import WebsiteMenu from './components/WebsiteMenu.vue'
+import AdBox from './components/AdBox.vue'
 
 import '@fontsource/inter/400.css'
 import '@fontsource/inter/500.css'
@@ -16,7 +18,11 @@ export default {
   extends: DefaultTheme,
   Layout() {
     return h(DefaultTheme.Layout, null, {
-      'doc-footer-before': () => h(EditedBy)
+      'doc-footer-before': () => h(EditedBy),
+      'aside-bottom': () => h(AdBox)
     })
+  },
+  enhanceApp({ app }) {
+    app.component('WebsiteMenu', WebsiteMenu)
   }
 } satisfies Theme

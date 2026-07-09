@@ -38,6 +38,63 @@ function groupAsDropdown(label: string, items: DefaultTheme.NavItem[]): DefaultT
   ]
 }
 
+/**
+ * A nav entry rendered by the custom WebsiteMenu.vue component (globe
+ * icon, opens a small dropdown of external links) instead of a plain
+ * text link - registered as a global component in theme/index.ts.
+ * VitePress automatically re-renders it appropriately inside the mobile
+ * full-screen menu too.
+ */
+function websiteMenuItem(
+  label: string,
+  links: { text: string; link: string }[]
+): DefaultTheme.NavItem {
+  return { component: 'WebsiteMenu', props: { label, links } } as DefaultTheme.NavItem
+}
+
+// Placeholder external links - point these at the project's real website,
+// community, and store (or trim the list to just one). Shown as a
+// globe-icon dropdown in the nav, opening each link in a new tab.
+const websiteLinksEn = [
+  { text: 'Main Website', link: 'https://www.cubeocean.web.id' },
+  { text: 'Community', link: 'https://www.cubeocean.web.id/community' },
+  { text: 'Store', link: 'https://www.cubeocean.web.id/store' },
+  { text: 'Events website', link: 'https://events.cubeocean.web.id' },
+  { text: 'News', link: 'https://events.cubeocean.web.id/news' }
+]
+
+const websiteLinksId = [
+  { text: 'Website Utama', link: 'https://www.cubeocean.web.id' },
+  { text: 'Community', link: 'https://www.cubeocean.web.id/community' },
+  { text: 'Store', link: 'https://www.cubeocean.web.id/store' },
+  { text: 'Events website', link: 'https://events.cubeocean.web.id' },
+  { text: 'News', link: 'https://events.cubeocean.web.id/news' }
+]
+
+// Single place to set the real repo - reused by the GitHub icon in the
+// nav and by the "Edit this page" link on every doc page.
+const GITHUB_REPO = 'https://github.com/CubeOcean-Network/CubeOcean-Games-Docs'
+const GITHUB_BRANCH = 'main'
+
+// Ad slot shown at the very bottom of the right-hand "on this page" aside
+// (below the outline). One is picked at random client-side on every page
+// load - see AdBox.vue. Swap the image paths for real creatives dropped
+// into docs/public/ads/, and point `link` at whatever each one should open.
+const ads = [
+  {
+    image: '/ads/ad-cog.png',
+    link: 'https://www.cubeocean.web.id',
+    alt: 'CubeOcean Games',
+    description: "Let's go on an adventure."
+  },
+  {
+    image: '/ads/ad-habibsmp.svg',
+    link: 'https://www.habibsmp.my.id',
+    alt: 'HabibSMP',
+    description: 'Custom survival training server for Minecraft Java Edition and Bedrock Edition.'
+  }
+]
+
 const sharedSearchLocales = {
   id: {
     translations: {
@@ -59,17 +116,14 @@ const sharedSearchLocales = {
 }
 
 export default defineConfig({
-
-  base: '/',
-
   title: 'CubeOcean Games Docs',
-  description: 'Platform documentation',
+  description: 'CubeOcean Games documentation',
   cleanUrls: true,
   lastUpdated: true,
   appearance: true,
 
   head: [
-    ['link', { rel: 'icon', href: '/favicon.png', type: 'image/svg+xml' }],
+    ['link', { rel: 'icon', href: '/favicon.png', type: 'image/png' }],
     ['meta', { name: 'theme-color', content: '#0a0a0a' }]
   ],
 
@@ -79,8 +133,8 @@ export default defineConfig({
     logo: '/favicon.png',
 
     socialLinks: [
-      // Replace with the project's real repository.
-      { icon: 'github', link: 'https://github.com/your-org/your-repo' }
+      // Replace GITHUB_REPO above with the project's real repository.
+      { icon: 'github', link: GITHUB_REPO }
     ],
 
     search: {
@@ -124,9 +178,9 @@ export default defineConfig({
       lang: 'en',
       link: '/en/',
       title: 'CubeOcean Games Docs',
-      description: 'Platform documentation',
+      description: 'CubeOcean Games documentation',
       themeConfig: {
-        nav: groupAsDropdown('Docs', en.nav),
+        nav: [...groupAsDropdown('Docs', en.nav), websiteMenuItem('Website', websiteLinksEn)],
         sidebar: en.sidebar,
         outline: { label: 'On this page' },
         returnToTopLabel: 'Return to top',
@@ -138,17 +192,21 @@ export default defineConfig({
         docFooter: { prev: 'Previous page', next: 'Next page' },
         lastUpdatedText: 'Last updated',
         lastUpdated: { text: 'Last updated' },
-        editLink: undefined
+        editLink: {
+          pattern: `${GITHUB_REPO}/edit/${GITHUB_BRANCH}/docs/:path`,
+          text: 'Edit this page on GitHub'
+        },
+        ads
       }
     },
     id: {
       label: 'Bahasa Indonesia',
       lang: 'id',
       link: '/id/',
-      title: 'Dokumentasi CubeOcean Games',
+      title: 'Dokumentasi Platform',
       description: 'Dokumentasi platform',
       themeConfig: {
-        nav: groupAsDropdown('Dokumentasi', id.nav),
+        nav: [...groupAsDropdown('Dokumentasi', id.nav), websiteMenuItem('Situs Web', websiteLinksId)],
         sidebar: id.sidebar,
         outline: { label: 'Di halaman ini' },
         returnToTopLabel: 'Kembali ke atas',
@@ -159,7 +217,12 @@ export default defineConfig({
         langMenuLabel: 'Ubah bahasa',
         docFooter: { prev: 'Halaman sebelumnya', next: 'Halaman selanjutnya' },
         lastUpdatedText: 'Terakhir diperbarui',
-        lastUpdated: { text: 'Terakhir diperbarui' }
+        lastUpdated: { text: 'Terakhir diperbarui' },
+        editLink: {
+          pattern: `${GITHUB_REPO}/edit/${GITHUB_BRANCH}/docs/:path`,
+          text: 'Edit halaman ini di GitHub'
+        },
+        ads
       }
     }
   }
