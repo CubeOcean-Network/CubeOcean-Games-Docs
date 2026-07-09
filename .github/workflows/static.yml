@@ -15,16 +15,12 @@ permissions:
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment, skipping runs queued between the
-# run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these
-# production deployments to complete.
+# Allow only one concurrent deployment
 concurrency:
   group: "pages"
   cancel-in-progress: false
 
 jobs:
-  # Single deploy job since we're just deploying
   deploy:
     environment:
       name: github-pages
@@ -37,38 +33,38 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Configures GitHub Pages
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
-      # Installs pnpm
+      # Sets up pnpm
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: latest
+          version: 10
 
       # Sets up Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 24
-          cache: pnpm
+          cache: "pnpm"
 
-      # Installs project dependencies
+      # Installs dependencies
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
-      # Builds the VitePress site
+      # Builds the project
       - name: Build
         run: pnpm build
 
-      # Uploads the generated static files
+      # Configures GitHub Pages
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      # Uploads the generated static site
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: docs/.vitepress/dist
 
-      # Deploys the site to GitHub Pages
+      # Deploys to GitHub Pages
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v5p
+        uses: actions/deploy-pages@v4
